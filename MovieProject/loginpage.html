@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signin</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/loginpagecss.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        color: white;
+        text-transform: capitalize;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container_signup_signin" id="container_signup_signin">
+      <div class="form-container sign-up-container">
+        <form
+          name="sign-up-form"
+          action="Signup.php"
+          method="post"
+          onsubmit="return signUpValidateForm()"
+        >
+          <h1>Create Account</h1>
+          <input name="name" type="text" placeholder="Name" />
+          <input name="email" type="email" placeholder="Email" />
+          <input name="password" type="password" placeholder="Password" />
+          <button>Sign Up</button>
+        </form>
+      </div>
+      <div class="form-container sign-in-container">
+        <form
+          name="sign-in-form"
+          action="Signin.php"
+          method="post"
+          onsubmit="return signInValidateForm()"
+        >
+          <h1>Sign in</h1>
+          <input name="sign-in-email" type="email" placeholder="Email" />
+          <input name="sign-in-passwd" type="password" placeholder="Password" />
+          <a href="#">Forgot your password?</a>
+          <button>Sign In</button>
+        </form>
+      </div>
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Welcome Back!</h1>
+            <p>
+              To keep connected with us please login with your login details
+            </p>
+            <button class="ghost" id="signIn">Sign In</button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1>nila cinemas</h1>
+            <p>Register and book your tickets now!!!</p>
+            <button class="ghost" id="signUp">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Function to store the logged-in username in local storage
+      function storeLoggedInUsername(username) {
+        localStorage.setItem("loggedInUsername", username);
+      }
+
+      const container = document.getElementById("container_signup_signin");
+      const signUpButton = document.getElementById("signUp");
+      const signInButton = document.getElementById("signIn");
+
+      // Get reference to the forms
+      const signUpForm = document.forms["sign-up-form"];
+      const signInForm = document.forms["sign-in-form"];
+
+      // Add event listener for sign-in button
+      signInButton.addEventListener("click", () => {
+        container.classList.remove("right-panel-active");
+
+        // Retrieve the email entered by the user
+        const email = signInForm["sign-in-email"].value;
+
+        // Store the logged-in username in local storage
+        storeLoggedInUsername(email);
+      });
+
+      // Add event listener for sign-up button
+      signUpButton.addEventListener("click", () => {
+        container.classList.add("right-panel-active");
+      });
+
+      function signInValidateForm() {
+        var email = document.forms["sign-in-form"]["sign-in-email"].value;
+        var password = document.forms["sign-in-form"]["sign-in-passwd"].value;
+
+        if (email === "") {
+          alert("Email cannot be empty");
+          return false;
+        }
+
+        if (password === "") {
+          alert("Password cannot be empty");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+    <script src="assets/js/bootstrap.min.js"></script>
+  </body>
+</html>

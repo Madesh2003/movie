@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Ticket</title>
+    <link rel="stylesheet" href="./css/ticket.css" />
+    <style>
+      .parkingSection.with-border-top {
+        border-top: dotted #ffce26;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ticket-container">
+      <div class="ticket" id="ticket">
+        <div class="ticket-header">
+          <p class="brand-logo">nila cinemas</p>
+          <p class="movie-name" id="movie-name"></p>
+        </div>
+        <div class="movie-img">
+          <img
+            src="./assets/TicketBanner/foodbanner.jpg"
+            width="100%"
+            height="200px"
+            style="object-fit: fill"
+            alt="Movie: Only God Forgives"
+          />
+        </div>
+        <div class="info">
+          <div class="food-section">
+            <div id="food-section"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const foodItems = JSON.parse(localStorage.getItem("selectedFoodItems"));
+        const totalAmount = parseFloat(localStorage.getItem("totalAmount")); // Parse totalAmount as float
+
+        // Check if food items are selected
+        const foodSection = document.getElementById("food-section");
+        if (foodItems && foodItems.length > 0) {
+          const Foodheader = document.createElement("h5");
+          Foodheader.textContent = "Food:";
+          Foodheader.classList.add("food-header");
+          foodSection.appendChild(Foodheader);
+          foodItems.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${item.foodname} - </td> <td>${item.quantity} x </td> <td> ${item.subtotal}</td>`;
+            foodSection.appendChild(row);
+          });
+
+          // Display the total amount for food
+          const totalAmountRow = document.createElement("tr");
+          totalAmountRow.innerHTML = `<td colspan="2" classname="food-total">Total Amount:</td><td>₹${totalAmount}</td>`;
+          foodSection.appendChild(totalAmountRow);
+        }
+
+
+        const food_Items = JSON.parse(
+          localStorage.getItem("selectedFoodItems")
+        );
+
+        const modifiedFoodItems = food_Items.map(
+          ({ foodimg, ...rest }) => rest
+        );
+
+
+        const data = {
+          foodItems: modifiedFoodItems,
+        };
+
+        console.log(data);
+        fetch("Foodtickets.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            console.log("Response from server:", data);
+          })
+          .catch((error) => {
+            console.error("Error sending data to server:", error);
+          });
+     
+      });
+    </script>
+  </body>
+</html>

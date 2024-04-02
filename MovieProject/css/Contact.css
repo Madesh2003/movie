@@ -1,0 +1,123 @@
+@font-face {
+    font-family: myfont1;
+    src: url(../assets/fonts/BEASIGNE.otf);
+  }
+  
+  @font-face {
+    font-family: myfont3;
+    src: url(../assets/fonts/darklinos.otf);
+  }
+  
+body{
+ background-color: black;
+ text-transform: uppercase;
+}
+
+.contact-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  background-color: black;
+  font-family: myfont1;
+}
+
+
+
+nav {
+    background-color: black;
+    border-bottom: #ffce26 1px solid;
+    z-index: 9999;
+    overflow: hidden;
+    >.nav-bar-container{
+         >.navbar-brand {
+          color: white;
+          letter-spacing: 2px;
+          font-family: myfont1;
+        
+        }
+        >.navbar-toggler{
+          >i{
+          color: white;
+          font-size: 20px;
+          transition: 0.6s ease;
+        }
+        >i:hover{
+          color: #ffce26;
+        }
+        }
+        >#navbarResponsive{
+             >#nav-bar-ul {
+              display: flex;
+              align-items: baseline;
+              gap: 34px;
+              >li{
+                >#nav-links {
+                  color: rgb(255, 255, 255);
+                  transition: 0.5s ease;
+                  font-weight: 300;
+                  letter-spacing: 2px;
+                  font-family: myfont3;
+                  font-size: 13px;
+                  padding-top: 20px;
+                 >.fa-solid {
+                  font-size: 14px;
+                  transition: 0.5s ease;
+                }
+                }
+                >#nav-links:hover {
+                  color: #ffce26;
+                
+                  >.fa-solid {
+                    color: red;
+                  }
+                }
+              }
+              
+            }
+        }
+        
+    }
+  }
+  
+
+  .contact{
+    background-color: #ffce26;
+    height: 500px;
+    width: 600px;
+    border-radius: 5%;
+    padding: 20px;
+    >h3{
+      font-family: myfont1;
+      text-align: center;
+    }
+}
+
+
+.contacts-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 70%;
+  width: 100%;
+  margin-top: 30px;
+  >div{
+    >h4{
+      font-size: 13px;
+    } 
+ >p{
+      font-size: 12px;
+      text-indent: 40px;
+      letter-spacing: 2px;
+      margin-top: 10px;
+      font-family: myfont3;
+    }   
+  }
+}
+
+.social-medias{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 16%;
+}

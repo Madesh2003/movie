@@ -1,0 +1,121 @@
+@font-face {
+    font-family: myfont1;
+    src: url(../assets/fonts/BEASIGNE.otf);
+  }
+  
+  @font-face {
+    font-family: myfont3;
+    src: url(../assets/fonts/darklinos.otf);
+  }
+  
+  
+  body {
+    font-family: myfont1;
+      background-color: black;
+      font-weight: 600;
+      color: #ffce26;
+    }
+    .ticket {
+      width: 400px;
+      background-color: black;
+      margin: 25px auto;
+      position: relative;
+    }
+  
+    .ticket-header{
+      text-align: center;
+      text-transform: uppercase;
+      >p{
+        letter-spacing: 2px;
+      }
+    }
+  
+    .brand-logo{
+      padding-top: 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  
+    .movie-name{
+      font-size: 13px;
+      font-weight: bold;
+    }
+    
+    .title {
+      padding: 50px 25px 10px;
+    }
+    
+    .cinema {
+      color: #aaa;
+      font-size: 16px;
+    }
+    
+    .movie-title {
+      font-size: 50px;
+    }
+    
+    .info {
+      padding: 15px 25px;
+      background-color: black;
+    }
+    
+    table {
+      width: 100%;
+      font-size: 9px;
+      letter-spacing: 2px;
+    }
+    
+    th {
+      text-align: left;
+      padding-bottom: 5px;
+    }
+    
+    td {
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+    
+    .bigger {
+      font-size: 12px;
+    }
+    
+    .parkingSection, .food-section{
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+  
+    .parkingSection.with-border-top{
+      border-top: dotted #ffce26;
+  
+    }
+    .food-section.with-border-top {
+      border-top: dotted #ffce26;
+  
+    }
+  
+    .parkingSection.with-border-top, .food-section.with-border-top{
+      margin: 0px 25px;
+      padding: 10px 0px;
+    }
+  
+  
+    .food-section>div{
+      margin: 0px 25px;
+      padding: 10px 0px;
+    }
+  
+    .parking-slot{
+      font-family: sans-serif;
+      text-transform: capitalize;
+      font-size: 12px;
+    }
+  
+    .parking-header, .food-header{
+      font-size: 10px;
+    }
+  
+    .qr-code-section{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }

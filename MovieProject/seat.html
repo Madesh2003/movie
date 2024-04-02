@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Movie Seat Booking</title>
+    <style>
+      @font-face {
+        font-family: myfont1;
+        src: url(../assets/fonts/BEASIGNE.otf);
+      }
+
+      @font-face {
+        font-family: myfont3;
+        src: url(../assets/fonts/darklinos.otf);
+      }
+      body {
+        letter-spacing: 1px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        color: white;
+        background-color: black;
+      }
+
+      #movie-name-placeholder {
+        font-family: myfont1;
+        letter-spacing: 5px;
+      }
+      .screen-1 {
+        background-color: #fff;
+        height: 10px;
+        width: 45%;
+        margin: 50px 0;
+        box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+      }
+      .screen {
+        width: 100%;
+        text-align: center;
+      }
+      .seats-container {
+        display: grid;
+        grid-template-columns: repeat(10, 50px);
+        gap: 10px;
+        margin-bottom: 50px;
+      }
+      .seat {
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        font-family: sans-serif !important;
+        font-size: x-small;
+        text-align: center;
+        color: black;
+        line-height: 40px;
+        cursor: pointer;
+      }
+      .seat:hover {
+        background-color: red;
+        transition: all 0.6s ease-in-out;
+      }
+      .occupied {
+        background-color: #6a6a6a;
+        cursor: not-allowed;
+      }
+      .occupied:hover {
+        background-color: #6a6a6a;
+      }
+      .selected {
+        background-color: #ffce26;
+      }
+
+      .footer {
+        font-family: myfont1;
+        font-size: 10px;
+        letter-spacing: 2px;
+        position: sticky;
+        top: 0%;
+        background: rgba(255, 255, 255, 0.33);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8.2px);
+        -webkit-backdrop-filter: blur(8.2px);
+        width: 100%;
+      }
+
+      #show-time, #show-date, #selected-screen, #total-amount, #total-seats, #selected-seats{
+             color: #ffce26;
+             font-family: myfont1;
+      }
+
+      .info {
+        color: white;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .selected-seat-label {
+        background-color: #6a6a6a;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+      }
+      .nonselected-seat-label {
+        background-color: #ffce26;
+        width: 20px;
+        height: 20px;
+      }
+      .showcase {
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        > li {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        }
+      }
+      .btn-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background-color: black;
+        color: white;
+        letter-spacing: 3px;
+        padding: 8px 13px;
+        margin: 20px;
+        border-radius: 5px;
+        font-size: 8px;
+        font-weight: 500;
+        font-family: myfont1;
+        transition: all 0.5s ease-in-out;
+        outline: none;
+        cursor: pointer;
+      }
+      button:hover {
+        color: black;
+        background-color: #ffce26;
+        > i {
+          color: black;
+        }
+      }
+      i {
+        color: white;
+      }
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="screen">
+      <h2 id="movie-name-placeholder"></h2>
+    </div>
+
+    <div class="screen-1"></div>
+
+    <div class="seats-container" id="seats-container"></div>
+
+    <div class="footer">
+      <div class="info">
+        <div class="selected-time">
+          <p>Show Time: <span id="show-time"></span></p>
+          <p>Date: <span id="show-date"></span></p>
+          <p>Screen: <span id="selected-screen"></span></p>
+        </div>
+
+        <ul class="showcase">
+          <li>
+            <div class="nonselected-seat-label"></div>
+            <small>Selected</small>
+          </li>
+          <li>
+            <div class="selected-seat-label"></div>
+            <small>Sold</small>
+          </li>
+        </ul>
+
+        <div class="total">
+          <p>Total Amount: <span id="total-amount">0</span></p>
+          <p>Total Seats: <span id="total-seats">0</span></p>
+          <div class="selected-seats">
+            <p>Selected Seats: <span id="selected-seats"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-section">
+        <a href="./index.html">
+          <button type="button">
+            <i class="fa-solid fa-arrow-left"></i> back
+          </button>
+        </a>
+        <button type="button" id="next-button">
+          next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const selectedDate = localStorage.getItem("selectedDateTime");
+      const selectedScreen = localStorage.getItem("selectedScreen");
+      const selectedTime = localStorage.getItem("selectedTime");
+      const selectedMovieName = localStorage.getItem("selectedMovieName");
+
+      console.log("Selected Movie Name: ", selectedMovieName);
+
+      document.getElementById("show-time").textContent = selectedTime;
+      document.getElementById("show-date").textContent = selectedDate;
+      document.getElementById("selected-screen").textContent = selectedScreen;
+
+      const movieNamePlaceholder = document.getElementById(
+        "movie-name-placeholder"
+      );
+      if (selectedMovieName) {
+        movieNamePlaceholder.textContent = selectedMovieName;
+      }
+
+      const seatsContainer = document.getElementById("seats-container");
+      const totalAmountElement = document.getElementById("total-amount");
+      const totalSeatsElement = document.getElementById("total-seats");
+      const selectedSeatsElement = document.getElementById("selected-seats");
+
+      const seatPrice = 200;
+
+      const occupiedSeats = ["A-1", "A-2", "B-3", "F-5"];
+
+      function createSeats() {
+        const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+        rows.forEach((row) => {
+          for (let i = 1; i <= 10; i++) {
+            const seat = document.createElement("div");
+            seat.classList.add("seat");
+            seat.textContent = row + "-" + i;
+            if (i === 3) {
+              const empty = document.createElement("div");
+            }
+            if (occupiedSeats.includes(row + "-" + i)) {
+              seat.classList.add("occupied");
+              seat.removeEventListener("click", selectSeat);
+            } else {
+              seat.addEventListener("click", selectSeat);
+            }
+            seatsContainer.appendChild(seat);
+          }
+        });
+      }
+
+      function selectSeat() {
+        if (!this.classList.contains("selected")) {
+          this.classList.add("selected");
+          updateTotal();
+        } else {
+          this.classList.remove("selected");
+          updateTotal();
+        }
+      }
+
+      // Function to update total amount and seats
+      function updateTotal() {
+        const selectedSeats = document.querySelectorAll(".selected");
+        const selectedSeatsCount = selectedSeats.length;
+        totalSeatsElement.textContent = selectedSeatsCount;
+        totalAmountElement.textContent = selectedSeatsCount * seatPrice;
+
+        const selectedSeatsArray = Array.from(selectedSeats).map(
+          (seat) => seat.textContent
+        );
+        selectedSeatsElement.textContent = selectedSeatsArray.join(", ");
+      }
+
+      // Initialize
+      createSeats();
+
+      function exportSeatAndPrice() {
+        const selectedSeats = document.querySelectorAll(".selected");
+        const selectedSeatsArray = Array.from(selectedSeats).map(
+          (seat) => seat.textContent
+        );
+        const totalPrice = selectedSeats.length * seatPrice;
+
+        // Export selected seats and total price to localStorage
+        localStorage.setItem(
+          "selectedSeats",
+          JSON.stringify(selectedSeatsArray)
+        );
+        localStorage.setItem("totalPrice", totalPrice);
+
+        // Redirect to the next page
+        window.location.href = "./food.html";
+      }
+
+      const nextButton = document.getElementById("next-button");
+      nextButton.addEventListener("click", exportSeatAndPrice);
+    </script>
+  </body>
+</html>

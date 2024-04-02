@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body {
+      background-color: black;
+    }
+    .payment-container {
+      max-width: 400px;
+      height: fit-content;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .payment-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .btn{
+        background-color: #ffce26;
+        border: #ffce26;
+        color: black;
+    }
+
+    .btn:hover{
+       background-color: black;
+       color: white;
+       border: black;
+    }
+
+    .btn:focus{
+        background-color: #ffce26;
+        border: #ffce26;
+        color: black;
+    }
+
+    /* Initially hide payment fields */
+    .payment-fields {
+      display: none;
+    }
+
+    .payment-fields{
+        >label{
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        >input{
+            font-size: 12px;
+            height: 25px;
+        }
+        >input::placeholder{
+            font-size: 10px;
+        }
+    }
+
+    .input-group{
+        >input{
+            font-size: 12px;
+            height: 30px;
+        }
+        >input::placeholder{
+            font-size: 12px;
+        }
+    }
+
+    #show-cvv-btn{
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .text-danger{
+        font-size: 12px;
+    }
+    #selected-payment-method{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <h2>Payment Information</h2>
+    <form id="payment-form">
+
+      <select id="payment-method" name="payment-method" class="form-control" required>
+          <option value="none-option">None <i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i></option>
+        <option value="credit-card">Credit Card <i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i></option>
+        <option value="debit-card">Debit Card <i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i></option>
+      </select>
+
+      <div class="form-group" id="selected-payment-method">
+        <!-- Selected payment method will be displayed here -->
+      </div>
+
+      <!-- Payment fields initially hidden -->
+      <div class="form-group payment-fields">
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="card-number" class="form-control" maxlength="16" placeholder="---- ---- ---- ----" required>
+        <div id="card-number-error" class="text-danger"></div>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="expiry-date">Expiry Date:</label>
+        <input type="text" id="expiry-date" name="expiry-date" class="form-control" placeholder="MM/YY" maxlength="5" required>
+        <div id="expiry-date-error" class="text-danger"></div>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="cvv">CVV:</label>
+        <div class="input-group">
+          <input type="password" id="cvv" name="cvv" class="form-control" maxlength="3" required>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="show-cvv-btn">Show</button>
+          </div>
+        </div>
+        <div id="cvv-error" class="text-danger"></div>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="ticket-price">Ticket Price:</label>
+        <input type="text" id="ticket-price" name="ticket-price" class="form-control" value="₹" readonly>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="food-price">Food Price:</label>
+        <input type="text" id="food-price" name="food-price" class="form-control" value="₹" readonly>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="parking-price">Parking Price:</label>
+        <input type="text" id="parking-price" name="parking-price" class="form-control" value="₹" readonly>
+      </div>
+
+      <div class="form-group payment-fields">
+        <label for="total-amount">Total Amount:</label>
+        <input type="text" id="total-amount" name="total-amount" class="form-control" value="₹" readonly>
+      </div>
+      
+      <button type="submit" class="btn btn-block">Pay Now</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    document.getElementById("payment-method").addEventListener("change", function() {
+      const selectedMethod = this.value;
+      const paymentMethodDiv = document.getElementById("selected-payment-method");
+      const paymentFields = document.querySelectorAll(".payment-fields");
+
+      if(selectedMethod === "none-option") {
+        // Hide payment fields
+        paymentFields.forEach(function(element) {
+          element.style.display = "none";
+        });
+
+        // Disable Pay Now button
+        document.querySelector("#payment-form button[type='submit']").disabled = true;
+
+      } else {
+        // Show payment fields
+        paymentFields.forEach(function(element) {
+          element.style.display = "block";
+        });
+
+        // Hide payment method selection
+        document.getElementById("payment-method").style.display = "none";
+
+        // Enable Pay Now button
+        document.querySelector("#payment-form button[type='submit']").disabled = false;
+
+        paymentMethodDiv.textContent = selectedMethod.charAt(0).toUpperCase() + selectedMethod.slice(1);
+      }
+    });
+
+    // Trigger the change event to set the initial payment method
+    document.getElementById("payment-method").dispatchEvent(new Event("change"));
+    document.addEventListener("DOMContentLoaded", function () {
+      const ticketPrice = parseFloat(localStorage.getItem("totalPrice"));
+      const foodPrice = parseFloat(localStorage.getItem("totalAmount"));
+      const parkingPrice = parseFloat(localStorage.getItem("parkingtotalprice"));
+      const totalAmount = ticketPrice + foodPrice + parkingPrice;
+
+      document.getElementById("ticket-price").value = `₹${ticketPrice.toFixed(2)}`;
+      document.getElementById("food-price").value = `₹${foodPrice.toFixed(2)}`;
+      document.getElementById("parking-price").value = `₹${parkingPrice.toFixed(2)}`;
+      document.getElementById("total-amount").value = `₹${totalAmount.toFixed(2)}`;
+
+      const paymentForm = document.getElementById("payment-form");
+      paymentForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Validate card number
+        const cardNumberInput = document.getElementById("card-number");
+        const cardNumber = cardNumberInput.value.trim();
+        if (!/^\d{16}$/.test(cardNumber)) {
+          document.getElementById("card-number-error").textContent = "Please enter a 16-digit card number.";
+          return;
+        } else {
+          document.getElementById("card-number-error").textContent = "";
+        }
+
+      
+        const expiryDateInput = document.getElementById("expiry-date");
+  expiryDateInput.addEventListener("input", function () {
+    const value = this.value.replace(/\D/g, '');
+    if (value.length > 2) {
+      const month = value.substring(0, 2);
+      const year = value.substring(2);
+      if (parseInt(month) > 12) {
+        document.getElementById("expiry-date-error").textContent = "Please enter a valid expiry date (MM/YY).";
+      } else {
+        document.getElementById("expiry-date-error").textContent = "";
+      }
+      this.value = month + '/' + year;
+    } else {
+      this.value = value;
+    }
+  });
+
+        // Validate CVV
+        const cvvInput = document.getElementById("cvv");
+        const cvv = cvvInput.value.trim();
+        if (!/^\d{3}$/.test(cvv)) {
+          document.getElementById("cvv-error").textContent = "Please enter a 3-digit CVV.";
+          return;
+        } else {
+          document.getElementById("cvv-error").textContent = "";
+        }
+
+        // Simulate payment success (Replace this with your actual payment processing)
+        const paymentSuccess = Math.random() < 0.8; // 80% success rate
+        if (paymentSuccess) {
+          // Proceed to display the ticket
+          window.location.href = "Tickets.html";
+        } else {
+          alert("Payment failed. Please try again.");
+        }
+      });
+
+      // Show/hide CVV
+      const cvvInput = document.getElementById("cvv");
+      const showCvvBtn = document.getElementById("show-cvv-btn");
+      showCvvBtn.addEventListener("click", function () {
+        if (cvvInput.type === "password") {
+          cvvInput.type = "text";
+          showCvvBtn.textContent = "Hide";
+        } else {
+          cvvInput.type = "password";
+          showCvvBtn.textContent = "Show";
+        }
+      });
+
+      // Add event listener to automatically add "/" after entering the month in the expiry date field
+      const expiryDateInput = document.getElementById("expiry-date");
+      expiryDateInput.addEventListener("input", function () {
+        const value = this.value.replace(/\D/g, '');
+        if (value.length > 2) {
+          this.value = value.substring(0, 2) + '/' + value.substring(2);
+        } else {
+          this.value = value;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

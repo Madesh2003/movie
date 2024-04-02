@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+    <style>
+      @font-face {
+        font-family: myfont3;
+        src: url(assets/fonts/darklinos.otf);
+      }
+
+      @font-face {
+        font-family: myfont1;
+        src: url(assets/fonts/BEASIGNE.otf);
+      }
+
+      body {
+        background-color: black;
+      }
+
+      p {
+        margin: 0%;
+        padding: 0%;
+      }
+
+      .container {
+        margin-top: 30px;
+      }
+
+      .col-6,
+      .col-md-4,
+      .col-xl-3,
+      .col-lg-4,
+      .col-md-6 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        margin: 30px 0px;
+      }
+
+      .card {
+        width: 13rem;
+        height: 15rem; /* Change height to auto */
+        position: relative;
+        overflow: hidden;
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.4s ease;
+      }
+
+      .card-img-top {
+        width: 100%;
+        height: 65%; 
+        object-fit: cover;
+      }
+
+      .food-name-price {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-family: myfont3;
+        color: black;
+        font-size: 8px;
+        letter-spacing: 2px;
+      }
+
+      .add-food {
+        background-color: red;
+        padding: 5px 0px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+
+        > button {
+          text-decoration: none;
+          color: white;
+          outline: none;
+          border: none;
+          background-color: red;
+          font-family: myfont3;
+          font-size: 11px;
+          letter-spacing: 2px;
+        }
+      }
+
+      .card:hover {
+        box-shadow: 0px 0px 20px 5px rgb(224, 31, 31);
+        transform: scale(1.04);
+      }
+
+      .foodsection,
+      .food-varity {
+        margin-top: 50px;
+        text-transform: uppercase;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 4px;
+        font-family: myfont1;
+        color: #ffce26;
+      }
+
+      .cart-container{
+        text-transform: capitalize;
+        display: flex;
+        flex-wrap: wrap;
+        color: white;
+        justify-content: space-evenly;
+        align-items: center;
+        font-family: myfont3;
+        font-size: 10px;
+        letter-spacing: 5px;
+      }
+      .cart-item-individual{
+        padding: 5px 0px;
+      }
+.footer{
+  padding-top: 20px;
+  position: sticky;
+        top: 0%;
+        background: rgba(255, 255, 255, 0.33);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8.2px);
+        -webkit-backdrop-filter: blur(8.2px);
+        width: 100%;
+}
+.btn-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .nxt-btn,.back-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background-color: black;
+        color: white;
+        letter-spacing: 3px;
+        padding: 8px 13px;
+        margin: 20px;
+        border-radius: 5px;
+        font-size: 8px;
+        font-weight: 500;
+        font-family: myfont1;
+        transition: all 0.5s ease-in-out;
+        outline: none;
+        cursor: pointer;
+      }
+      .nxt-btn:hover {
+        color: black;
+        background-color: #ffce26;
+        > i {
+          color: black;
+        }
+      }
+      .back-btn:hover {
+        color: black;
+        background-color: #ffce26;
+        > i {
+          color: black;
+        }
+      }
+      i {
+        color: white;
+      }
+      a {
+        text-decoration: none;
+      }
+
+
+      .remove-item{
+        background: none;
+        outline: none;
+        border: none;
+      }
+
+
+      .cart-item-individual{
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3 class="foodsection">Tastey bites</h3>
+    <div class="container">
+        <div class="row colddrinks">
+            
+        </div>
+    </div>
+
+    <!-- Buttons for back and skip -->
+    
+<div class="footer">
+  <div class="cart-container">
+    <div class="cart-items"></div>
+    <div class="total-amount"></div> 
+    <p class="discount"></p>
+</div>
+
+<div class="btn-section">
+  <a href="./seat.html">
+    <button type="button" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> back
+    </button>
+  </a>
+    <button type="button" class="nxt-btn" id="continueButton">
+      next <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</div>
+</div>
+  
+
+
+    <script src="js/food-card.js"></script>
+    
+</body>
+
+  </body>
+</html>

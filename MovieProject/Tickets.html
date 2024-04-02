@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Ticket</title>
+    <link rel="stylesheet" href="./css/ticket.css" />
+    <style>
+      .parkingSection.with-border-top {
+        border-top: dotted #ffce26;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ticket-page">
+      <div class="ticket-container">
+        <div class="ticket" id="ticket">
+          <div class="ticket-header">
+            <p class="brand-logo">nila cinemas</p>
+            <p class="movie-name" id="movie-name"></p>
+          </div>
+          <div class="movie-img">
+            <img
+              src="./assets/TicketBanner/You-have-to-display-Nila-cinemas-.jpg"
+              width="100%"
+              height="200px"
+              style="object-fit: fill"
+              alt="Movie: Only God Forgives"
+            />
+          </div>
+          <div class="info">
+            <table>
+              <tr>
+                <th>SCREEN</th>
+                <th>SEAT</th>
+              </tr>
+              <tr>
+                <td class="bigger" id="screen-number"></td>
+                <td class="bigger" id="seat-number"></td>
+              </tr>
+            </table>
+            <table>
+              <tr>
+                <th>PRICE</th>
+                <th>DATE</th>
+                <th>TIME</th>
+              </tr>
+              <tr>
+                <td id="ticket-price"></td>
+                <td id="ticket-date"></td>
+                <td id="ticket-time"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="qr-code-section">
+            <div class="qr-code" id="qr-code"></div>
+          </div>
+
+          <div class="parkingSection" id="parking-section"></div>
+          <div class="food-section">
+            <div id="food-section"></div>
+          </div>
+        </div>
+        <button id="download-ticket">download</button>
+        <div id="home-btn">
+          <a href="./index.html">
+            Home
+          </a></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const movieName = localStorage.getItem("selectedMovieName");
+        const screenNumber = localStorage.getItem("selectedScreen");
+        const ticketDate = localStorage.getItem("selectedDateTime");
+        const ticketTime = localStorage.getItem("selectedTime");
+        const seatNumber = localStorage.getItem("selectedSeats");
+        const ticketPrice = localStorage.getItem("totalPrice");
+        const totalPriceofparking = localStorage.getItem("parkingtotalprice");
+        const foodItems = JSON.parse(localStorage.getItem("selectedFoodItems"));
+        const totalAmount = parseFloat(localStorage.getItem("totalAmount"));
+
+        // Update movie name
+        document.getElementById("movie-name").textContent = movieName;
+        // Update screen, row, and seat
+        document.getElementById("screen-number").textContent = screenNumber;
+        document.getElementById("seat-number").textContent = seatNumber;
+        // Update ticket price, date, and time
+        document.getElementById("ticket-price").textContent = `₹${ticketPrice}`;
+        document.getElementById("ticket-date").textContent = ticketDate;
+        document.getElementById("ticket-time").textContent = ticketTime;
+
+        // Check if food items are selected
+        const foodSection = document.getElementById("food-section");
+        if (foodItems && foodItems.length > 0) {
+          const Foodheader = document.createElement("h5");
+          Foodheader.textContent = "Food:";
+          Foodheader.classList.add("food-header");
+          foodSection.appendChild(Foodheader);
+          foodItems.forEach((item) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${item.foodname} - </td> <td>${item.quantity} x </td> <td> ${item.subtotal}</td>`;
+            foodSection.appendChild(row);
+          });
+
+          // Display the total amount for food
+          const totalAmountRow = document.createElement("tr");
+          totalAmountRow.innerHTML = `<td colspan="2" classname="food-total">Total Amount:</td><td>₹${totalAmount}</td>`;
+          foodSection.appendChild(totalAmountRow);
+        }
+
+        // Check if parking slot is selected
+        const selectedSlots = JSON.parse(localStorage.getItem("selectedSlots"));
+        if (selectedSlots && selectedSlots.length > 0) {
+          const parkingSection = document.getElementById("parking-section");
+          parkingSection.classList.add("with-border-top");
+          const parkingInfo = document.createElement("h5");
+          parkingInfo.textContent = "Parking Ticket:";
+          parkingInfo.classList.add("parking-header");
+          parkingSection.appendChild(parkingInfo);
+          selectedSlots.forEach((slot) => {
+            const slotInfo = document.createElement("p");
+            slotInfo.textContent = `${slot.slotNumber} - ₹${slot.price}`;
+            slotInfo.classList.add("parking-slot");
+            parkingSection.appendChild(slotInfo);
+          });
+          const totalprice = document.createElement("p");
+          totalprice.textContent = `Total Price: ₹${totalPriceofparking}`;
+          totalprice.classList.add("parking-slot");
+          parkingSection.appendChild(totalprice);
+        }
+
+        const selected_Slots = JSON.parse(
+          localStorage.getItem("selectedSlots")
+        );
+        const parkingSlots = selectedSlots.map(
+          (slot, index) => `${slot.slotNumber}`
+        );
+        const parkingPrices = selectedSlots.map((slot) => slot.price);
+        const food_Items = JSON.parse(
+          localStorage.getItem("selectedFoodItems")
+        );
+        const modifiedFoodItems = food_Items.map(
+          ({ foodimg, ...rest }) => rest
+        );
+        const qrdata = {
+          movieName: localStorage.getItem("selectedMovieName"),
+          screenNumber: localStorage.getItem("selectedScreen"),
+          seatNumber: localStorage.getItem("selectedSeats"),
+          ticketDate: localStorage.getItem("selectedDateTime"),
+          parkingslots: parkingSlots,
+          parkingPrices: parkingPrices,
+          ticketTime: localStorage.getItem("selectedTime"),
+          ticketPrice: localStorage.getItem("totalPrice"),
+          totalPriceofparking: localStorage.getItem("parkingtotalprice"),
+          username: localStorage.getItem("username"),
+          foodItems: modifiedFoodItems,
+          totalAmount: parseFloat(localStorage.getItem("totalAmount")),
+        };
+
+        const qrCodeDiv = document.getElementById("qr-code");
+
+        try {
+          const qr = qrcode(0, "L");
+          qr.addData(JSON.stringify(qrdata));
+          qr.make();
+
+          const imgTag = qr.createImgTag();
+          // Add width and height attributes
+          const updatedImgTag = imgTag.replace(
+            "<img",
+            '<img width="100" height="100"'
+          ); // Set your desired width and height
+          qrCodeDiv.innerHTML = updatedImgTag;
+        } catch (error) {
+          console.error("Error generating QR code:", error);
+        }
+
+        const loggedInUsername = localStorage.getItem("username");
+
+        const data = {
+          movieName: localStorage.getItem("selectedMovieName"),
+          screenNumber: localStorage.getItem("selectedScreen"),
+          seatNumber: localStorage.getItem("selectedSeats"),
+          parkingslots: parkingSlots,
+          parkingPrices: parkingPrices,
+          ticketDate: localStorage.getItem("selectedDateTime"),
+          ticketTime: localStorage.getItem("selectedTime"),
+          ticketPrice: localStorage.getItem("totalPrice"),
+          totalPriceofparking: localStorage.getItem("parkingtotalprice"),
+          username: localStorage.getItem("username"),
+          foodItems: modifiedFoodItems,
+          totalAmount: parseFloat(localStorage.getItem("totalAmount")),
+        };
+
+        console.log(data);
+        fetch("Tickets.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            console.log("Response from server:", data);
+          })
+          .catch((error) => {
+            console.error("Error sending data to server:", error);
+          });
+
+        document
+          .getElementById("download-ticket")
+          .addEventListener("click", function () {
+            // Capture ticket container as image using html2canvas
+            html2canvas(document.querySelector(".ticket-container"), {
+              onrendered: function (canvas) {
+                // Convert canvas to JPEG image
+                var imgData = canvas.toDataURL("image/jpeg");
+
+                // Create download link
+                var link = document.createElement("a");
+                link.download = "ticket.jpg";
+                link.href = imgData;
+                link.click();
+              },
+            });
+          });
+      });
+    </script>
+  </body>
+</html>

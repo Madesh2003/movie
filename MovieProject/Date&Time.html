@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Ticket Booking</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        color: white;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .date {
+        display: inline-block;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .selected {
+        background-color: #007bff;
+        color: #fff;
+      }
+
+      .screen-time {
+        margin-top: 50px;
+      }
+
+      .screen-time input[type="checkbox"] {
+        display: none;
+      }
+
+      .screen-time label {
+        display: block;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .screen-time label.selected {
+        background-color: #007bff;
+        color: #fff;
+      }
+
+      #next-btn {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      #next-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      .dates {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+      }
+      .date {
+        background-color: white;
+        color: black;
+        border-radius: 3px;
+      }
+      .show-time {
+        background-color: white;
+        color: black;
+        border-radius: 3px;
+        margin: 5px;
+        width: fit-content;
+      }
+      .screens {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .date.selected {
+        background-color: #007bff !important;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Movie Ticket Booking</h1>
+      <div class="dates">
+        <div class="date" onclick="selectDate(this, 'March 2, Monday')">
+          March 2<br />Monday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 3, Monday')">
+          March 3<br />Monday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 4, Wednesday')">
+          March 4<br />Wednesday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 5, Monday')">
+          March 5<br />Monday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 6, Monday')">
+          March 6<br />Monday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 7, Monday')">
+          March 7<br />Monday
+        </div>
+        <div class="date" onclick="selectDate(this, 'March 8, Monday')">
+          March 8<br />Monday
+        </div>
+      </div>
+
+      <div class="screen-time">
+        <p>screen 1</p>
+        <div class="screens">
+          <div class="show-time">
+            <input type="checkbox" id="screen1" onchange="checkNextButton()" />
+            <label for="screen1" onclick="selectScreen(this, 'Screen 1')"
+              >9:00 AM</label
+            >
+          </div>
+          <div class="show-time">
+            <input type="checkbox" id="screen2" onchange="checkNextButton()" />
+            <label for="screen1" onclick="selectScreen(this, 'Screen 1')"
+              >1:00 PM</label
+            >
+          </div>
+        </div>
+        <p>screen 2</p>
+        <div class="screens">
+          <div class="show-time">
+            <input type="checkbox" id="screen3" onchange="checkNextButton()" />
+            <label for="screen3" onclick="selectScreen(this, 'Screen 2')"
+              >9:00 AM</label
+            >
+          </div>
+          <div class="show-time">
+            <input type="checkbox" id="screen4" onchange="checkNextButton()" />
+            <label for="screen4" onclick="selectScreen(this, 'Screen 2')"
+              >1:00 PM</label
+            >
+          </div>
+        </div>
+        <p>screen 3</p>
+        <div class="screens">
+          <div class="show-time">
+            <input type="checkbox" id="screen5" onchange="checkNextButton()" />
+            <label for="screen5" onclick="selectScreen(this, 'Screen 3')"
+              >9:00 AM</label
+            >
+          </div>
+          <div class="show-time">
+            <input type="checkbox" id="screen6" onchange="checkNextButton()" />
+            <label for="screen6" onclick="selectScreen(this, 'Screen 3')"
+              >1:00 PM</label
+            >
+          </div>
+        </div>
+        <p>screen 4</p>
+        <div class="screens">
+          <div class="show-time">
+            <input type="checkbox" id="screen7" onchange="checkNextButton()" />
+            <label for="screen7" onclick="selectScreen(this, 'Screen 4')"
+              >9:00 AM</label
+            >
+          </div>
+          <div class="show-time">
+            <input type="checkbox" id="screen8" onchange="checkNextButton()" />
+            <label for="screen8" onclick="selectScreen(this, 'Screen 4')"
+              >1:00 PM</label
+            >
+          </div>
+        </div>
+      </div>
+
+      <button id="next-btn" onclick="nextPage()" disabled>Next</button>
+    </div>
+
+    <script>
+      let selectedDateTime = null;
+      let selectedScreen = null;
+
+      function selectDate(element, dateTime) {
+        console.log("Date element clicked:", element);
+        selectedDateTime = dateTime; // Get the combined date and day
+        console.log("Selected Date and Day:", selectedDateTime);
+
+        let dates = document.querySelectorAll(".date");
+        dates.forEach((date) => {
+          date.classList.remove("selected");
+        });
+        element.classList.add("selected");
+        checkNextButton();
+      }
+
+      function selectScreen(element, screen) {
+        selectedScreen = screen;
+        let labels = document.querySelectorAll(".screen-time label");
+        labels.forEach((label) => {
+          label.classList.remove("selected");
+        });
+        element.classList.add("selected");
+        selectedTime = element.textContent;
+        checkNextButton();
+      }
+
+      function checkNextButton() {
+        let nextBtn = document.getElementById("next-btn");
+        if (selectedDateTime && selectedScreen && selectedTime) {
+          nextBtn.disabled = false;
+        } else {
+          nextBtn.disabled = true;
+        }
+      }
+
+      function nextPage() {
+        if (selectedDateTime && selectedScreen && selectedTime) {
+          localStorage.setItem("selectedDateTime", selectedDateTime);
+          localStorage.setItem("selectedScreen", selectedScreen);
+          localStorage.setItem("selectedTime", selectedTime);
+
+          window.location.href = "seat.html";
+        }
+      }
+    </script>
+  </body>
+</html>

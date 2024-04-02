@@ -1,0 +1,138 @@
+@font-face {
+    font-family: myfont3;
+    src: url(assets/fonts/darklinos.otf);
+  }
+
+  @font-face {
+    font-family: myfont1;
+    src: url(assets/fonts/BEASIGNE.otf);
+  }
+  
+.movies-container{
+  >.col-6,
+  .col-md-4,
+  .col-xl-3,
+  .col-lg-4,
+  .col-md-6 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 30px 0px;
+
+    >.card {
+      width: 13rem;
+      height: 17rem;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      border-radius: 10px;
+
+      >img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      >.card-body {
+        width: 100%;
+        height: 50px;
+        box-sizing: border-box;
+        position: absolute;
+        background: rgb(0, 0, 0);
+        color: wheat;
+        bottom: 0px;
+        transition: all 0.6s ease-in-out;
+
+        >.titleofmovie,
+        .titleofmovie-upcoming {
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 3px;
+          word-spacing: 10px;
+          font-weight: bolder;
+          font-size: 12px;
+          text-align: center;
+          font-family: myfont3;
+          transition: all 0.6s ease-in-out;
+        }
+
+          >ul{
+             color: white;
+          text-transform: uppercase;
+          font-weight: bold;
+          letter-spacing: 1px;
+          font-size: 10px;
+          margin: 30px 0px;
+          font-family: myfont1;
+            text-align: left;
+            >li{
+              padding: 5px 0px;
+              list-style: disc;
+            }
+          }
+
+        >.card-body-book {
+          display: flex;
+          justify-content: space-between;
+
+          >a {
+            cursor: pointer;
+            margin-top: 5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            font-family: myfont3;
+            color: white;
+            letter-spacing: 2px;
+            transition: 0.6s ease;
+            font-size: 9px;
+          }
+
+          >a:hover {
+            color: red;
+          }
+        }
+      }
+    }
+
+    .card:hover {
+      box-shadow: 0px 0px 15px 4px rgba(255, 206, 38, 1);
+
+      /* horizontal-0px vertical-0px blur-10px spread-2px */
+      >.card-body {
+        height: 100%;
+        bottom: 0px;
+        background: rgba(0, 0, 0, 0.5);
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
+
+        >.titleofmovie {
+          color: #ffce26;
+        }
+
+        >.titleofmovie-upcoming {
+          color: red;
+        }
+      }
+    }
+  }
+
+  .now-showing-heading, .up-coming-heading, .popular-movies-heading{
+    margin-top: 50px;
+text-transform: uppercase;
+color: white;
+font-weight: bold;
+font-size: 14px;
+letter-spacing: 4px;
+font-family: myfont1;
+color: #ffce26;
+  }
+
+ .up-coming-heading{
+  color: red;
+ }
+ .popular-movies-heading{
+  color: #ffce26;
+  margin-top: 100px;
+ }
+}
